@@ -46,31 +46,19 @@ export default function InstallApkModal({
   };
 
   // Direct APK download handler
-  const handleDownloadApkFile = async () => {
-    const apkUrl = '/assets/e-BK-Mejayan.apk';
-    try {
-      const check = await fetch(apkUrl, { method: 'HEAD' });
-      if (!check.ok || check.headers.get('content-type')?.includes('text/html')) {
-        if (showToast) {
-          showToast('File .APK belum diunggah. Gunakan tab "PWA Langsung" atau klik Titik Tiga (⋮) di Chrome HP -> "Instal Aplikasi".', 'warning');
-        }
-        return;
-      }
-      const link = document.createElement('a');
-      link.href = apkUrl;
-      link.download = 'e-BK-Mejayan.apk';
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        if (document.body.contains(link)) document.body.removeChild(link);
-      }, 2000);
-      if (showToast) {
-        showToast('Memulai pengunduhan paket e-BK-Mejayan.apk...', 'info');
-      }
-    } catch {
-      if (showToast) {
-        showToast('File .APK belum tersedia. Gunakan fitur "Instal Aplikasi" (PWA) di browser HP.', 'warning');
-      }
+  const handleDownloadApkFile = () => {
+    const releaseUrl = 'https://github.com/hamdan-sgpt/ebk-smkn1mejayan/releases/download/v1.0.0-apk/e-BK-SMKN1Mejayan.apk';
+    const link = document.createElement('a');
+    link.href = releaseUrl;
+    link.download = 'e-BK-SMKN1Mejayan.apk';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      if (document.body.contains(link)) document.body.removeChild(link);
+    }, 2000);
+    if (showToast) {
+      showToast('Memulai pengunduhan paket e-BK-SMKN1Mejayan.apk (4.3 MB)...', 'success');
     }
   };
 
