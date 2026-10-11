@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>e-BK Career Self-Efficacy</title>
+<style>
+:root{--primary:#315c8a;--secondary:#eaf2f8;--accent:#4b8f8c;--text:#263238;--muted:#667781;--bg:#f5f7fa;--white:#fff;--danger:#b94a48;--shadow:0 8px 25px rgba(0,0,0,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#315c8a,#4b8f8c);color:white;padding:22px 6%;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand h1{margin:0;font-size:24px}.brand p{margin:5px 0 0;opacity:.9}
+button{border:0;border-radius:9px;padding:11px 16px;cursor:pointer;font-weight:600}
+.btn{background:var(--primary);color:white}.btn.alt{background:var(--accent)}.btn.light{background:white;color:var(--primary)}.btn.danger{background:var(--danger);color:#fff}
+.container{max-width:1180px;margin:28px auto;padding:0 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:white;border-radius:14px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}.card h2,.card h3{margin-top:0}
+.hero{background:white;border-radius:18px;padding:35px;box-shadow:var(--shadow);margin-bottom:22px}.hero h2{font-size:32px;margin:0 0 10px;color:var(--primary)}
+.stat{font-size:30px;font-weight:bold;color:var(--primary)}.muted{color:var(--muted)}
+nav{background:white;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:10px 6%;display:flex;gap:8px;flex-wrap:wrap}
+nav button{background:transparent;color:var(--primary)}nav button:hover{background:var(--secondary)}
+.hidden{display:none!important}.login{max-width:560px;margin:65px auto;padding:30px;background:white;border-radius:18px;box-shadow:var(--shadow)}
+input,select,textarea{width:100%;padding:11px;border:1px solid #ccd6dd;border-radius:8px;margin:6px 0 14px;font:inherit}
+label{font-weight:600;font-size:14px}.question{padding:15px;background:#f8fafb;border-radius:10px;margin:12px 0}.question label{font-weight:normal;display:block;margin:7px 0}
+table{width:100%;border-collapse:collapse}th,td{padding:11px;border-bottom:1px solid #e4e9ed;text-align:left}th{background:#f1f5f8}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:var(--secondary);color:var(--primary);font-size:12px;font-weight:bold}
+.progress{height:12px;background:#e3e8ec;border-radius:10px;overflow:hidden}.progress span{display:block;height:100%;background:var(--accent)}
+footer{text-align:center;color:var(--muted);padding:35px}
+.notice{background:#fff8e6;border-left:5px solid #d5a431;padding:15px;border-radius:8px}
+.success{background:#eaf7ef;border-left:5px solid #4b8f8c;padding:15px;border-radius:8px}
+@media(max-width:650px){header{align-items:flex-start;flex-direction:column}.hero h2{font-size:25px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const questions=[
+" Saya yakin dapat mengenali kemampuan yang saya miliki untuk mendukung karier.",
+" Saya yakin dapat menentukan pilihan pekerjaan yang sesuai dengan kemampuan saya.",
+" Saya mampu mencari informasi tentang bidang pekerjaan yang saya minati.",
+" Saya yakin dapat mempelajari keterampilan baru yang dibutuhkan dunia kerja.",
+" Saya mampu menghadapi kesulitan ketika merencanakan karier.",
+" Saya yakin dapat mengambil keputusan ketika memiliki beberapa pilihan karier.",
+" Saya mampu membuat langkah-langkah untuk mencapai tujuan karier.",
+" Saya yakin dapat menyesuaikan diri dengan perubahan di dunia kerja.",
+" Saya mampu memperkenalkan kemampuan diri kepada orang lain.",
+" Saya yakin dapat mencapai tujuan karier yang saya rencanakan."
+];
+
+let state={user:null,answers:JSON.parse(localStorage.getItem('ebk_answers')||'null'),challenge:JSON.parse(localStorage.getItem('ebk_challenge')||'{}')};
+function save(){localStorage.setItem('ebk_answers',JSON.stringify(state.answers));localStorage.setItem('ebk_challenge',JSON.stringify(state.challenge))}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function login(){
+ const role=document.getElementById('role').value, name=document.getElementById('name').value.trim()||'Demo Pengguna';
+ state.user={role,name}; render();
+}
+function logout(){state.user=null;render()}
+function nav(){return `<nav>
+<button onclick="page('home')">🏠 Beranda</button>
+${state.user.role==='siswa'?`
+<button onclick="page('assessment')">📋 Asesmen</button><button onclick="page('materi')">📚 Materi</button>
+<button onclick="page('challenge')">🎯 Career Challenge</button><button onclick="page('counsel')">💬 Konseling</button>
+<button onclick="page('reflection')">📝 Refleksi</button><button onclick="page('evaluation')">⭐ Evaluasi</button>`:`
+<button onclick="page('dashboard')">📊 Dashboard</button><button onclick="page('ethics')">🔐 Etika & Privasi</button>`}
+<button onclick="logout()">Keluar</button></nav>`}
+function shell(content){document.getElementById('app').innerHTML=`<header><div class="brand"><h1>e-BK Career Self-Efficacy</h1><p>Layanan BK Karier Berbasis Teknologi Informasi</p></div><div>${esc(state.user.name)} · ${state.user.role==='siswa'?'Siswa':'Guru BK'}</div></header>${nav()}<main class="container">${content}</main><footer>Prototype akademik S2 BK · SMKN 1 Mejayan · Data demo tersimpan lokal pada browser</footer>`}
+function render(){if(!state.user){document.getElementById('app').innerHTML=`<div class="login"><h1 style="color:var(--primary)">e-BK Career Self-Efficacy</h1><p class="muted">Prototype aplikasi layanan bimbingan dan konseling karier berbasis TIK.</p><div class="notice"><b>Demo:</b> aplikasi ini menggunakan data lokal browser dan belum terhubung database/server.</div><br><label>Nama pengguna</label><input id="name" placeholder="Contoh: Yuni / Siswa XI TKJ"><label>Akses</label><select id="role"><option value="siswa">Siswa</option><option value="guru">Guru BK</option></select><button class="btn" onclick="login()">Masuk ke Aplikasi</button><p class="muted" style="font-size:13px">Jangan memasukkan data sensitif pada prototype demo.</p></div>`;return}page('home')}
+function page(p){
+ if(p==='home') return home(); if(p==='assessment')return assessment();if(p==='materi')return materi();if(p==='challenge')return challenge();if(p==='counsel')return counsel();if(p==='reflection')return reflection();if(p==='evaluation')return evaluation();if(p==='dashboard')return dashboard();if(p==='ethics')return ethics();
+}
+function home(){shell(`<div class="hero"><span class="badge">PORTAL BK DIGITAL</span><h2>Selamat datang, ${esc(state.user.name)}</h2><p>Gunakan aplikasi untuk mengenali kekuatan diri, mengeksplorasi karier, mengikuti aktivitas pengembangan career self-efficacy, dan mengakses layanan BK secara terarah.</p></div>
+<div class="grid"><div class="card"><h3>📋 Asesmen</h3><p>Isi instrumen sederhana untuk memperoleh gambaran awal career self-efficacy.</p><button class="btn" onclick="page('assessment')">Mulai</button></div><div class="card"><h3>📚 Materi</h3><p>Pelajari potensi diri, eksplorasi karier, tujuan dan kesiapan kerja.</p><button class="btn alt" onclick="page('materi')">Buka</button></div><div class="card"><h3>🔐 Etika</h3><p>Kerahasiaan, persetujuan, keamanan data dan batas layanan digital.</p><button class="btn" onclick="page('${state.user.role==='guru'?'ethics':'counsel'}')">${state.user.role==='guru'?'Lihat':'Layanan'}</button></div></div>`)}
+function assessment(){shell(`<div class="card"><h2>Asesmen Career Self-Efficacy</h2><p class="muted">Skala 1–5: 1 = Sangat Tidak Sesuai, 5 = Sangat Sesuai.</p><form onsubmit="submitAssessment(event)">${questions.map((q,i)=>`<div class="question"><b>${i+1}.${q}</b>${[1,2,3,4,5].map(v=>`<label><input type="radio" name="q${i}" value="${v}" required> ${v}</label>`).join('')}</div>`).join('')}<button class="btn" type="submit">Simpan & Lihat Hasil</button></form></div>${state.answers?resultBox() : ''}`)}
+function submitAssessment(e){e.preventDefault();state.answers=questions.map((_,i)=>Number(document.querySelector(`input[name=q${i}]:checked`).value));save();assessment()}
+function resultBox(){let sum=state.answers.reduce((a,b)=>a+b,0),avg=sum/10,level=avg<2.6?'Perlu penguatan':avg<3.6?'Sedang':'Baik';return `<div class="card"><h3>Hasil asesmen awal</h3><div class="grid"><div><div class="stat">${sum}/50</div><div class="muted">Skor total</div></div><div><div class="stat">${avg.toFixed(2)}</div><div class="muted">Rata-rata</div></div><div><div class="stat">${level}</div><div class="muted">Interpretasi awal</div></div></div><br><div class="notice"><b>Catatan:</b> hasil ini adalah screening/asesmen awal, bukan diagnosis. Interpretasi profesional dan tindak lanjut tetap menjadi tanggung jawab Guru BK.</div></div>`}
+function materi(){shell(`<div class="card"><h2>📚 Materi Karier Digital</h2><div class="grid">
+<div class="card"><h3>Mengenal Diri</h3><p>Identifikasi minat, kekuatan, keterampilan, nilai dan pengalaman keberhasilan.</p></div>
+<div class="card"><h3>Eksplorasi Karier</h3><p>Pelajari pekerjaan, kompetensi, jalur pendidikan dan kebutuhan dunia kerja.</p></div>
+<div class="card"><h3>Tujuan Karier</h3><p>Gunakan tujuan SMART: spesifik, terukur, dapat dicapai, relevan dan berbatas waktu.</p></div>
+<div class="card"><h3>Persiapan Kerja</h3><p>Latih CV, komunikasi profesional, wawancara dan adaptasi di lingkungan kerja.</p></div>
+<div class="card"><h3>Symbolic Modeling</h3><p>Amati video/cerita alumni atau tokoh inspiratif, kemudian identifikasi strategi yang dapat diteladani.</p><button class="btn alt" onclick="alert('Pada versi pengembangan, bagian ini dapat dihubungkan ke video alumni sekolah.')">Contoh Aktivitas</button></div>
+</div></div>`)}
+function challenge(){let items=['Tuliskan 3 kekuatan diri yang mendukung karier.','Pilih satu pekerjaan yang ingin Anda eksplorasi dan cari 3 kompetensi yang dibutuhkan.','Buat satu target pengembangan keterampilan dalam 30 hari.','Tulis jawaban singkat untuk pertanyaan wawancara: “Mengapa kami harus memilih Anda?”','Buat rencana karier 1 tahun ke depan.'];shell(`<div class="card"><h2>🎯 Career Challenge</h2><p>Aktivitas bertahap untuk membangun pengalaman keberhasilan dan keyakinan diri.</p>${items.map((x,i)=>`<div class="question"><b>Challenge ${i+1}</b><p>${x}</p><button class="btn ${state.challenge[i]?'alt':''}" onclick="completeChallenge(${i})">${state.challenge[i]?'✓ Selesai':'Tandai Selesai'}</button></div>`).join('')}</div>`)}
+function completeChallenge(i){state.challenge[i]=!state.challenge[i];save();challenge()}
+function counsel(){shell(`<div class="card"><h2>💬 Pengajuan Konseling/Bimbingan Daring</h2><div class="notice">Gunakan fitur ini untuk mengajukan jadwal layanan. Hindari menuliskan detail masalah sensitif pada formulir. Untuk kondisi mendesak, hubungi Guru BK secara langsung sesuai prosedur sekolah.</div><br><form onsubmit="submitCounsel(event)"><label>Topik umum yang ingin dibahas</label><select id="topic"><option>Perencanaan karier</option><option>Pengambilan keputusan karier</option><option>Persiapan dunia kerja</option><option>Pengembangan diri</option><option>Lainnya</option></select><label>Waktu yang diharapkan</label><input id="time" type="datetime-local" required><label>Catatan singkat (tanpa data sensitif)</label><textarea id="note" rows="4" placeholder="Contoh: ingin berdiskusi tentang pilihan karier setelah lulus."></textarea><label><input type="checkbox" required> Saya memahami bahwa layanan daring tetap mengikuti aturan dan etika BK.</label><button class="btn" type="submit">Kirim Pengajuan</button></form></div>`)}
+function submitCounsel(e){e.preventDefault();alert('Pengajuan tersimpan pada prototype demo. Pada aplikasi produksi, data harus dikirim ke sistem yang aman dan hanya dapat diakses pihak berwenang.')}
+function reflection(){shell(`<div class="card"><h2>📝 Refleksi Siswa</h2><form onsubmit="submitReflection(event)"><label>Hal terpenting yang saya pahami tentang diri saya:</label><textarea id="r1" rows="4" required></textarea><label>Langkah yang akan saya lakukan:</label><textarea id="r2" rows="4" required></textarea><button class="btn" type="submit">Simpan Refleksi</button></form></div>`)}
+function submitReflection(e){e.preventDefault();alert('Refleksi tersimpan pada demo. Dalam versi produksi, akses catatan dibatasi sesuai kewenangan layanan BK.')}
+function evaluation(){shell(`<div class="card"><h2>⭐ Evaluasi Layanan</h2><form onsubmit="alert('Terima kasih. Evaluasi tersimpan pada prototype.');return false"><div class="question"><b>1. Materi mudah dipahami.</b><label><input type="radio" name="e1" required> Sangat Tidak Setuju</label><label><input type="radio" name="e1"> Tidak Setuju</label><label><input type="radio" name="e1"> Setuju</label><label><input type="radio" name="e1"> Sangat Setuju</label></div><div class="question"><b>2. Media digital membantu saya memahami perencanaan karier.</b><label><input type="radio" name="e2" required> Sangat Tidak Setuju</label><label><input type="radio" name="e2"> Tidak Setuju</label><label><input type="radio" name="e2"> Setuju</label><label><input type="radio" name="e2"> Sangat Setuju</label></div><label>Saran untuk layanan:</label><textarea rows="4"></textarea><button class="btn alt" type="submit">Kirim Evaluasi</button></form></div>`)}
+function dashboard(){let sum=state.answers?state.answers.reduce((a,b)=>a+b,0):0,avg=state.answers?(sum/10).toFixed(2):'-';shell(`<div class="hero"><h2>Dashboard Guru BK</h2><p>Prototype monitoring layanan. Data di bawah berasal dari browser ini, bukan database sekolah.</p></div><div class="grid"><div class="card"><div class="stat">1</div><div class="muted">Pengguna demo</div></div><div class="card"><div class="stat">${state.answers?'1':'0'}</div><div class="muted">Asesmen tersimpan</div></div><div class="card"><div class="stat">${avg}</div><div class="muted">Rata-rata skor demo</div></div></div><div class="card"><h3>Data asesmen demo</h3>${state.answers?`<table><tr><th>Pengguna</th><th>Skor</th><th>Rata-rata</th><th>Tindak lanjut</th></tr><tr><td>${esc(state.user.name)}</td><td>${sum}/50</td><td>${avg}</td><td><span class="badge">Perlu interpretasi profesional</span></td></tr></table>`:'<p class="muted">Belum ada data pada browser ini. Siswa perlu melakukan asesmen terlebih dahulu.</p>'}</div>`)}
+function ethics(){shell(`<div class="card"><h2>🔐 Etika & Privasi Layanan BK Digital</h2><div class="grid"><div><h3>Kerahasiaan</h3><p>Data konseli hanya dapat diakses pihak yang berwenang sesuai kebutuhan layanan.</p></div><div><h3>Persetujuan</h3><p>Konseli memperoleh informasi tentang tujuan, proses, penggunaan data dan batas kerahasiaan.</p></div><div><h3>Keamanan</h3><p>Versi produksi perlu autentikasi, kontrol akses, enkripsi dan kebijakan retensi data.</p></div><div><h3>Batas layanan</h3><p>Tidak semua masalah tepat ditangani daring. Guru BK menentukan kebutuhan tatap muka, kolaborasi atau rujukan.</p></div><div><h3>Profesionalisme</h3><p>Teknologi merupakan alat bantu dan tidak menggantikan kompetensi serta pertimbangan profesional konselor.</p></div><div><h3>Aksesibilitas</h3><p>Sediakan alternatif luring bagi siswa yang mengalami kendala perangkat, internet atau kebutuhan akses lainnya.</p></div></div></div>`)}
+render();
+</script>
+</body>
+</html>

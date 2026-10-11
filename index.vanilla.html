@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#1e3a8a">
+  <meta name="description" content="Aplikasi Layanan Bimbingan dan Konseling Karier Berbasis TIK - SMKN 1 Mejayan">
+  <title>e-BK Career Self-Efficacy (Vanilla Backup)</title>
+
+  <!-- PWA & Apple Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/jpeg" href="assets/logo-bk-mejayan.jpeg">
+  <link rel="apple-touch-icon" href="assets/logo-bk-mejayan.jpeg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Typography: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Mobile UI Design System -->
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+  <!-- Main Application Container (Clean Adaptive Edutech Layout) -->
+  <div class="app-shell" id="appShell">
+    
+    <!-- Top Application Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="header-brand">
+          <img src="assets/logo-bk-mejayan.jpeg" alt="Logo BK SMKN 1 Mejayan" class="header-logo">
+          <div class="header-title-wrap">
+            <span class="header-institution">SMKN 1 MEJAYAN</span>
+            <h1 id="headerTitle">e-BK Karier</h1>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span id="userRoleBadge" class="user-role-badge" title="Profil atau Beralih Akun">Siswa</span>
+          <button id="themeToggleBtn" class="theme-toggle-btn" onclick="window.ebk.toggleTheme()" aria-label="Ganti Tema">
+            <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Application Screen Content -->
+    <main id="appContent" class="app-content" tabindex="-1"></main>
+
+    <!-- Fixed Bottom Navigation Bar -->
+    <nav id="bottomNav" class="bottom-nav" aria-label="Navigasi Utama Aplikasi"></nav>
+
+    <!-- Toast Feedback Notification -->
+    <div id="toastNotice" class="toast-notice" role="status" aria-live="polite"></div>
+
+    <!-- Slide-Up Modal Bottom Sheet -->
+    <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3 id="modalTitle">Judul</h3>
+          <button class="modal-close-btn" onclick="window.ebk.closeModal()" aria-label="Tutup Dialog">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Dedicated Print Container for Official Documents (Assessment Report, Certificate, Recap) -->
+  <div id="printContainer" class="print-container" aria-hidden="true"></div>
+
+  <!-- Firebase Firestore Compat SDK (Optional Cloud Synchronization) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- Database Siswa Kelas 11 SMKN 1 Mejayan -->
+  <script src="js/database-siswa.js"></script>
+  <!-- MySQL REST API Client Layer -->
+  <script src="js/api-client.js"></script>
+  <!-- Cloud Database Layer -->
+  <script src="js/cloud-db.js"></script>
+  <!-- Core Mobile Application Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

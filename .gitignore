@@ -1,0 +1,14 @@
+node_modules/
+dist/
+cloudflared.exe
+*.zip
+*.log
+.tempmediaStorage/
+.user_uploaded/
+.system_generated/
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+.DS_Store
+Thumbs.db

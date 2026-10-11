@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">e-BK Karier</string>
+    <string name="title_activity_main">e-BK Karier</string>
+    <string name="package_name">id.sch.smkn1mejayan.ebk</string>
+    <string name="custom_url_scheme">id.sch.smkn1mejayan.ebk</string>
+</resources>

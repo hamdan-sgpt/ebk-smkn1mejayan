@@ -1,0 +1,10 @@
+{
+  "appId": "id.sch.smkn1mejayan.ebk",
+  "appName": "e-BK Karier",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
+

@@ -1,0 +1,13 @@
+# Keamanan & Optimasi Folder API e-BK SMKN 1 Mejayan
+Options -Indexes
+
+# Izinkan akses berkas PHP saja
+<FilesMatch "\.(php)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Cegah akses ke berkas konfigurasi sensitif jika ada
+<Files "config.php">
+    # config.php tetap dapat di-include oleh script php lain, namun tidak menampilkan output sensitif
+</Files>

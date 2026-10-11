@@ -1,0 +1,25 @@
+{
+  "name": "e-BK Career Self-Efficacy",
+  "short_name": "e-BK Karier",
+  "description": "Aplikasi Layanan Bimbingan dan Konseling Karier Berbasis TIK - SMKN 1 Mejayan",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfbfb",
+  "theme_color": "#be123c",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/logo-bk-mejayan.jpeg",
+      "sizes": "192x192 432x432 512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
